@@ -1,0 +1,11 @@
+{
+    "name": "barbara/inventario-productos",
+    "autoload": {
+        "psr-4": {
+            "Barbara\\InventarioProductos\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
