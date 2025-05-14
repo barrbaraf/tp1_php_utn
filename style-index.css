@@ -1,0 +1,223 @@
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    padding: 0;
+}
+
+.contenedor {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 15px;
+}
+
+form.filtros {
+    display: flex;
+    gap: 10px;
+}
+
+.input-busqueda {
+    width: 250px;
+    padding: 10px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    font-size: 14px;
+    outline: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    background-color: #fff;
+    color: #111827;
+}
+
+.input-busqueda::placeholder {
+    color: #606369;
+}
+
+.input-busqueda:focus {
+    border-color: #1d9bf0;
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.3);
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px 40px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.select-estilo {
+    width: 200px;
+    padding: 10px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #111827;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" fill="%236b7280" viewBox="0 0 20 20"><path d="M7 7l3-3 3 3m0 6l-3 3-3-3"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.select-estilo:focus {
+    border-color: #1d9bf0;
+    box-shadow: 0 0 0 3px rgba(29, 155, 240, 0.3);
+    outline: none;
+}
+
+button {
+    --primary-color: #645bff;
+    --secondary-color: #fff;
+    --hover-color: #111;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    color: var(--secondary-color);
+    padding: 1em 1.8em;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: var(--hover-color);
+}
+
+table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #ccc;
+    padding: 10px;
+}
+
+th {
+    background-color: #eee;
+}
+
+a {
+    text-decoration: none;
+    color: #5517f4;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.btn-blue {
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    background-color: transparent;
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.625rem 1.25rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-blue:hover {
+    color: white;
+    background-color: #1d4ed8;
+    border-color: #2563eb;
+}
+
+.btn-blue:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px #93c5fd;
+}
+
+@media (prefers-color-scheme: dark) {
+    .btn-blue {
+        color: #3b82f6;
+        border-color: #3b82f6;
+    }
+
+    .btn-blue:hover {
+        color: white;
+        background-color: #2563eb;
+    }
+
+    .btn-blue:focus {
+        box-shadow: 0 0 0 4px #1e3a8a;
+    }
+}
+
+.btn-red {
+    color: #b91c1c;
+    /* text-red-700 */
+    border: 1px solid #b91c1c;
+    background-color: transparent;
+    font-weight: 500;
+    /* font-medium */
+    font-size: 0.875rem;
+    /* text-sm */
+    padding: 0.625rem 1.25rem;
+    /* py-2.5 px-5 */
+    text-align: center;
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    margin-right: 0.5rem;
+    /* me-2 */
+    margin-bottom: 0.5rem;
+    /* mb-2 */
+    transition: all 0.3s ease;
+}
+
+.btn-red:hover {
+    color: rgb(165, 11, 255);
+    background-color: #991b1b;
+    /* hover:bg-red-800 */
+    border-color: #b91c1c;
+}
+
+.btn-red:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px #fca5a5;
+    /* focus:ring-red-300 */
+}
+
+@media (prefers-color-scheme: dark) {
+    .btn-red {
+        color: #f87171;
+        /* dark:text-red-500 */
+        border-color: #f87171;
+        /* dark:border-red-500 */
+    }
+
+    .btn-red:hover {
+        color: white;
+        /* dark:hover:text-white */
+        background-color: #dc2626;
+        /* dark:hover:bg-red-600 */
+    }
+
+    .btn-red:focus {
+        box-shadow: 0 0 0 4px #7f1d1d;
+        /* dark:focus:ring-red-900 */
+    }
+}
+
+.mensaje_productoagregado {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #c3e6cb;
+    background-color: #d4edda;
+    color: #155724;
+    border-radius: 4px;
+
+}

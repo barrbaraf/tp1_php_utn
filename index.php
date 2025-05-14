@@ -1,143 +1,116 @@
 <?php
+require 'conexion-basedatos.php';
 
-// Cargar dependencias de Composer
-require 'vendor/autoload.php';
+$nombre = isset($_GET['nombre']) ? htmlspecialchars($_GET['nombre']) : '';
+$categoria = isset($_GET['categoria']) ? htmlspecialchars($_GET['categoria']) : '';
 
-try {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-    $dotenv->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    header('Content-Type: application/json');
-    http_response_code(500); // Error interno del servidor
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Error: configuración no encontrada.'
-    ]);
-    exit;
-} catch (Exception $e) {
-    header('Content-Type: application/json');
-    http_response_code(500);
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Error: ' . $e->getMessage()
-    ]);
-    exit;
+$sql_select = "SELECT * FROM productos WHERE 1=1";
+
+if ($nombre != '') {
+    $sql_select .= " AND nombre_producto LIKE '%" . mysqli_real_escape_string($conn, $nombre) . "%'";
+}
+if ($categoria != '') {
+    $sql_select .= " AND categoria = '" . mysqli_real_escape_string($conn, $categoria) . "'";
 }
 
-// --- 2. Obtener Credenciales ---
-$dbHost = $_ENV['DB_HOST'] ?? '127.0.0.1';
-$dbPort = $_ENV['DB_PORT'] ?? '3306';
-$dbName = $_ENV['DB_DATABASE'] ?? null;
-$dbUser = $_ENV['DB_USERNAME'] ?? null;
-$dbPass = $_ENV['DB_PASSWORD'] ?? null;
+// Opcional: orden por nombre
+$sql_select .= " ORDER BY nombre_producto ASC";
 
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+$result = mysqli_query($conn, $sql_select);
+$productos = [];
 
-try {
-    $conn = mysqli_connect(
-        $dbHost,
-        $dbUser,
-        $dbPass,
-        $dbName,
-        (int)$dbPort
-    );
-
-    mysqli_set_charset($conn, "utf8mb4");
-
-} catch (mysqli_sql_exception $e) {
-    header('Content-Type: application/json');
-    http_response_code(500); // Error interno del servidor
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Error de conexión a BD: ' . $e->getMessage()
-    ]);
-    exit;
+while ($row = mysqli_fetch_assoc($result)) {
+    $productos[] = $row;
 }
-
-//CREAMOS TABLA
-$sql_table = "
-CREATE TABLE IF NOT EXISTS productos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_producto VARCHAR(255) NOT NULL,
-    descripcion TEXT NOT NULL,
-    precio DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL,
-    categoria VARCHAR(100),
-    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb5 COLLATE=utf8mb4_unicode_ci;
-)";
-
-
-try{
-    mysql_query(mysql: $conn, query: $sql_table);
-} catch(mysqly_sql_exception $e){
-    header(header:'Content-Type: application/json');
-    http_response_code(responde_code:500);
-    echo json_encode(
-        value:[
-            'status'=> 'error',
-            'message'=> 'Error al crear la tabla: '.$e->getMessage()
-        ]
-        );
-        exit;
-}
-
-//RESPUESTA POR DEFECTO
-$response=[
-    'status'=> 'success',
-    'message'=>'Accion no valida o no encontrada'
-];
-
-$data= null;
-$status_code= 400;
-
-
-//ACCIONES: LISTAR, CREAR, EDITAR, BORRADO LOGICO
-$accion= $_REQUEST['accion'] ?? null;
-
-try{
-    switch($accion){
-
-        //LISTAR
-        case 'listar':
-            $allowed_colums = ['nombre_producto', 'descripcion', 'precio', 'precio', 'stock', 'categoria'];
-            $sort_column = 'nombre_producto';
-            $sort_dir = 'ASC';
-
-            if (isset($_GET['sort']) && in_array(needle: $_GET['sort'], haystack: $allowed_colums)){
-                $sort_column = $_GET['sort'];
-            }
-
-            if (isset($_GET['dir']) && in_array(needle: strtoupper(string: $GET['dir']), haystack: ['ASC', 'DES'])){
-                $sort_dir = strtoupper(string: $_GET['dir']);
-            }
-
-            $sql_select= "SELECT nombre_producto, descripcion, precio, precio, stock, categoria FROM productos ORDER BY " . $sort_column . " " . $sort_dir;
-            $result = mysqli_query(mysql: $conn, query: $sql_select);
-            $productos = [];
-            while ($row = mysqly_fetch_assoc(result: $result)){
-                $productos[] = $row;
-            }
-            mysql_free_result(result: $result);
-
-            $response= [
-                'status'=>'success',
-                'message'=>'Lista de productos obtenidos correctamente',
-            ];
-
-            $data= $productos;
-            $status_code= 200;
-            break;
-        
-            case 'crear':
-                if($_SERVER['REQUEST_METHOD'] !== 'POST'){
-                    $response = ['message' => 'Metodo no permitido, se requiere POST'];
-                    $status_code= 405;
-                    break;
-                }
-
-                
-}
-}
-
+mysqli_free_result($result);
 ?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="style-index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INVENTARIO</title>
+</head>
+<body>
+    <h1 class="encabezado">INVENTARIO</h1>
+    
+    <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'agregado') : ?>
+    <div class="mensaje_productoagregado">
+    Producto agregado correctamente.
+    </div>
+<?php endif; ?>
+<?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'eliminado') : ?>
+    <div class="alert alert-danger" style="margin: 20px 0; padding: 10px; border: 1px solid #f5c6cb; background-color: #f8d7da; color: #721c24; border-radius: 4px;">
+    Producto eliminado correctamente.
+    </div>
+<?php endif; ?>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="#">Buscar producto</a>
+        </li>
+        <li class="nav-item">
+             <a class="nav-link" href="crear_producto.php">Agregar producto</a>
+        </li>
+    </ul>
+
+    <div class="card" >
+        
+        <div class="contenedor">
+        <h2>Lista de productos:</h2>
+
+        <form method="GET" action="index.php" class="filtros">
+            
+
+            <input type="text" name="nombre" class="input-busqueda" placeholder="Ingrese el nombre..." value="<?= htmlspecialchars($nombre) ?>">
+            <select name="categoria" class="select-estilo">
+                <option value="">Todas</option>
+                <?php
+                $categorias = ['Vasos', 'Ropa', 'Accesorios', 'Mates', 'Libreria', 'Decoracion', 'Tecnologia'];
+                foreach ($categorias as $cat) {
+                    $selected = ($categoria == $cat) ? 'selected' : '';
+                    echo "<option value='$cat' $selected>$cat</option>";
+                }
+                ?>
+            </select>
+            <button type="submit" class="button">Buscar...</button>
+        </form>
+        </div>
+
+    <?php if (empty($productos)) : ?>
+        <p>Productos no encontrados...</p>
+    <?php else : ?>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Categoría</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+            <?php foreach ($productos as $producto) : ?>
+                <tr>
+                    <td><?= htmlspecialchars($producto['nombre_producto']) ?></td>
+                    <td><?= htmlspecialchars($producto['descripcion']) ?></td>
+                    <td><?= htmlspecialchars($producto['precio']) ?></td>
+                    <td><?= htmlspecialchars($producto['categoria']) ?></td>
+                    <td><?= htmlspecialchars($producto['stock']) ?></td>
+                    <td>
+                        <a class="btn-blue" href="editar_producto.php?id=<?= $producto['id'] ?>">Editar</a>
+                        
+                        <a class="btn-red" href="eliminar_producto.php?id=<?= $producto['id'] ?>" onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+                        
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
+
+    </div>
+    
+</body>
+</html>
