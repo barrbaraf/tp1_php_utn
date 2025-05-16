@@ -44,7 +44,7 @@ mysqli_free_result($result);
     </div>
 <?php endif; ?>
 <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'eliminado') : ?>
-    <div class="alert alert-danger" style="margin: 20px 0; padding: 10px; border: 1px solid #f5c6cb; background-color: #f8d7da; color: #721c24; border-radius: 4px;">
+    <div class="mensaje_productoeliminado" >
     Producto eliminado correctamente.
     </div>
 <?php endif; ?>
