@@ -13,7 +13,6 @@ if ($categoria != '') {
     $sql_select .= " AND categoria = '" . mysqli_real_escape_string($conn, $categoria) . "'";
 }
 
-// Opcional: orden por nombre
 $sql_select .= " ORDER BY nombre_producto ASC";
 
 $result = mysqli_query($conn, $sql_select);

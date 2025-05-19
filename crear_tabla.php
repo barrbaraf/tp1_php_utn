@@ -1,6 +1,6 @@
 <?php
 
-// --- 2. Obtener Credenciales ---
+
 $dbHost = $_ENV['DB_HOST'] ?? '127.0.0.1';
 $dbPort = $_ENV['DB_PORT'] ?? '3306';
 $dbName = $_ENV['DB_DATABASE'] ?? null;
@@ -22,7 +22,7 @@ try {
     exit;
 }
 
-// --- CREAR TABLA SI NO EXISTE ---
+
 $sql_table = "
 CREATE TABLE IF NOT EXISTS productos (
     id INT AUTO_INCREMENT PRIMARY KEY,

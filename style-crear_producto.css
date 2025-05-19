@@ -1,0 +1,110 @@
+/* Estilo general */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #eef1f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor centrado */
+.contenedor-formulario {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px 20px;
+}
+
+/* Tarjeta del formulario */
+.card-agregar-producto {
+    background-color: #ffffff;
+    padding: 40px 35px ;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.329);
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Título del formulario */
+.card-agregar-producto h2 {
+    text-align: center;
+    color: #000000;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Etiquetas */
+.card-agregar-producto label {
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 6px;
+}
+
+/* Inputs, select y textarea */
+.input-busqueda,
+.select-estilo,
+.textarea-estilo {
+    width: 90%;
+    padding: 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: #f9fafb;
+    color: #000000;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.textarea-estilo {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.input-busqueda:focus,
+.select-estilo:focus,
+.textarea-estilo:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Botones */
+.botones {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.botones button,
+.botones a {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilo botón guardar */
+.btn-blue {
+    background-color: #3b82f6;
+    color: #ffffff;
+}
+
+.btn-blue:hover {
+    background-color: #2563eb;
+}
+
+/* Estilo botón cancelar */
+.btn-red {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.btn-red:hover {
+    background-color: #dc2626;
+}

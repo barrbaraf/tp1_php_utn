@@ -51,38 +51,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Editar Producto</title>
-    <link rel="stylesheet" href="style-index.css">
+    <link rel="stylesheet" href="style-editar_producto.css">
 </head>
 <body>
-    <h2>Editar producto</h2>
-    <form method="POST" action="editar_producto.php">
+    <div class="contenedor-formulario">
+    <form method="POST" action="editar_producto.php" class="card-agregar-producto">
+        <h2>Editar producto</h2>
+
         <input type="hidden" name="id" value="<?= $producto['id'] ?>">
 
-        <label>Nombre:</label>
-        <input type="text" name="nombre" value="<?= htmlspecialchars($producto['nombre_producto']) ?>" required>
+        <div class="fila-doble">
+            <div class="campo">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" value="<?= htmlspecialchars($producto['nombre_producto']) ?>" required>
+            </div>
+            <div class="campo">
+                <label>Precio:</label>
+                <input type="number" step="0.01" min="0" name="precio" value="<?= $producto['precio'] ?>" required>
+            </div>
+        </div>
 
-        <label>Descripción:</label>
-        <textarea name="descripcion" required><?= htmlspecialchars($producto['descripcion']) ?></textarea>
+        <div class="campo">
+            <label>Descripción:</label>
+            <textarea name="descripcion" required><?= htmlspecialchars($producto['descripcion']) ?></textarea>
+        </div>
 
-        <label>Precio:</label>
-        <input type="number" step="0.01" name="precio" value="<?= $producto['precio'] ?>" required>
+        <div class="campo">
+            <label>Stock:</label>
+            <input type="number" name="stock" value="<?= $producto['stock'] ?>" required>
+        </div>
 
-        <label>Stock:</label>
-        <input type="number" name="stock" value="<?= $producto['stock'] ?>" required>
+        <div class="campo">
+            <label>Categoría:</label>
+            <select name="categoria">
+                <?php
+                $categorias = ['Vasos', 'Ropa', 'Accesorios', 'Mates', 'Libreria', 'Decoracion', 'Tecnologia'];
+                foreach ($categorias as $cat) {
+                    $selected = $producto['categoria'] == $cat ? 'selected' : '';
+                    echo "<option value='$cat' $selected>$cat</option>";
+                }
+                ?>
+            </select>
+        </div>
 
-        <label>Categoría:</label>
-        <select name="categoria">
-            <?php
-            $categorias = ['Vasos', 'Ropa', 'Accesorios', 'Mates', 'Libreria', 'Decoracion', 'Tecnologia'];
-            foreach ($categorias as $cat) {
-                $selected = $producto['categoria'] == $cat ? 'selected' : '';
-                echo "<option value='$cat' $selected>$cat</option>";
-            }
-            ?>
-        </select>
-
-        <button type="submit" class="btn-blue">Guardar cambios</button>
-        <a href="index.php" class="btn-red">Cancelar</a>
+        <div class="botones">
+            <button type="submit" class="btn-blue">Guardar cambios</button>
+            <a href="index.php" class="btn-red">Cancelar</a>
+        </div>
     </form>
+</div>
+
 </body>
 </html>

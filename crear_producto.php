@@ -20,42 +20,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
 }
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    
     <title>Agregar producto</title>
-    <link rel="stylesheet" href="style-index.css">
+    <link rel="stylesheet" href="style-crear_producto.css">
 </head>
 <body>
-    <h2>Agregar nuevo producto</h2>
-    <form method="POST" action="crear_producto.php">
-        <label>Nombre:</label>
-        <input type="text" name="nombre" required>
+    <div class="contenedor-formulario">
+        <form method="POST" action="crear_producto.php" class="card-agregar-producto">
+            <h2>Agregar nuevo producto</h2>
 
-        <label>Descripción:</label>
-        <textarea name="descripcion" required></textarea>
+            <label for="nombre">Nombre del producto:</label>
+            <input type="text" name="nombre" id="nombre" required class="input-busqueda">
 
-        <label>Precio:</label>
-        <input type="number" step="0.01" name="precio" required>
+            <label for="descripcion">Descripción:</label>
+            <textarea name="descripcion" id="descripcion" required class="textarea-estilo"></textarea>
 
-        <label>Stock:</label>
-        <input type="number" name="stock" required>
+            <label for="precio">Precio:</label>
+            <input type="number" step="0.01" min=0 name="precio" id="precio" required class="input-busqueda">
 
-        <label>Categoría:</label>
-        <select name="categoria">
-            <?php
-            $categorias = ['Vasos', 'Ropa', 'Accesorios', 'Mates', 'Libreria', 'Decoracion', 'Tecnologia'];
-            foreach ($categorias as $cat) {
-                echo "<option value='$cat'>$cat</option>";
-            }
-            ?>
-        </select>
+            <label for="stock">Stock:</label>
+            <input type="number" min=0 name="stock" id="stock" required class="input-busqueda">
 
-        <button type="submit" class="btn-blue">Guardar</button>
-        <a href="index.php" class="btn-red">Cancelar</a>
-    </form>
+            <label for="categoria">Categoría:</label>
+            <select name="categoria" id="categoria" class="select-estilo">
+                <option value="">Seleccionar</option>
+                <option value="Vasos">Vasos</option>
+                <option value="Ropa">Ropa</option>
+                <option value="Accesorios">Accesorios</option>
+                <option value="Mates">Mates</option>
+                <option value="Libreria">Librería</option>
+                <option value="Decoracion">Decoración</option>
+                <option value="Tecnologia">Tecnología</option>
+            </select>
+
+            <div class="botones">
+                <button type="submit" class="btn-blue">Guardar</button>
+                <a href="index.php" class="btn-red">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>
+
+
